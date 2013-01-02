@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+gem 'sinatra'
+gem 'sinatra-contrib'
+gem 'haml'
+gem 'sass'
+gem 'coffee-script'
+gem 'nokogiri'
+gem 'rake'
+gem 'excon'
+gem 'guard-shell'
+
