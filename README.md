@@ -36,6 +36,10 @@ This is your haml file from which everything else is linked.
 
 The output file when you run `rake compile`
 
+## Name
+
+I use my liquor cabinet for small project names.  If package this up for real use, I'll probably rename it.  This is named after Domaine de Canton, a French ginger liqueur my housemate is fond of.
+
 ## TODO:
 - Document better
 - Make haml optional
