@@ -43,5 +43,4 @@ I use my liquor cabinet for small project names.  If package this up for real us
 ## TODO:
 - Document better
 - Make haml optional
-- Actually support coffeescript and scss in the compilation code (only supported in local dev at the moment)
 - Make a config file (canton.yaml or something) to specify stuff like the out-file name, some path variables, and the index.haml location so we don't have do the ugle rake argument passing.
