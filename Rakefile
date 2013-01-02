@@ -7,6 +7,8 @@ task :compile, :filename do |t,args|
   puts "Compiling to a single file."
 
   require 'haml'
+  require 'coffee-script'
+  require 'sass'
   require 'nokogiri'
   require 'net/http'
   require 'uri'
@@ -53,6 +55,23 @@ def getContents( name, dir )
     end
     response.body
   else
-    open('public/' + name).read
+    filename = 'public/' + name
+    contents = ''
+
+    if File.exists? filename
+      contents = File.open(filename).read
+    else
+      puts "File #{filename} not found"
+      
+      # Try coffeescript or scss
+      if filename.sub!( /\.js$/, '.coffee' ) and File.exists? filename
+        contents = CoffeeScript.compile File.open filename
+        puts "    But found #{filename}"
+      elsif filename.sub!( /\.css$/, '.scss' )and File.exists? filename
+        contents = Sass.compile( File.open( filename ).read )
+        puts "    But found #{filename}"
+      end
+    end
+    contents
   end
 end
