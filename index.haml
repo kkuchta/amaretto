@@ -4,7 +4,30 @@
   %head
     %title JS App Template
     %script{ type: 'text/javascript', src: 'https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js' }
+    -#%script{ type: 'text/javascript', src: 'js/bootstrap.min.js' }
     %script{ type: 'text/javascript', src: 'js/script.js' }
+    %script{ type: 'text/javascript', src: 'js/handlebars-1.0.rc.1.js' }
+    %script{ type: 'text/javascript', src: 'js/jquery.maskedinput-1.3.js' }
+    %link{ type: 'text/css', rel: 'stylesheet', href: 'css/bootstrap.min.css' }
     %link{ type: 'text/css', rel: 'stylesheet', href: 'css/style.css' }
   %body
-    Body content here
+    .container
+      %h1.row
+        .span12
+          SF Rental Application
+      %form#application
+        .row
+          .span4
+            %label{ for:'first-name' } First Name
+            %input#first-name{ type:'text' }
+          .span4
+            %label{ for:'middle-intial' } M.I.
+            %input#middle-initial{ type:'text' }
+          .span4
+            %label{ for:'last-name' } Last Name
+            %input#last-name{ type:'text' }
+
+  %script#textField{ type:"text/x-handlebars-template" }
+    %div{ class:'span{{spanWidth}}' }
+      %label{ for:'{{id}}' } {{name}}
+      %input{ id:'{{id}}', type:'text', size:'{{chars}}' }
