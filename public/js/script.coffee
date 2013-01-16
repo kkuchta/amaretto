@@ -75,9 +75,9 @@ class TextField extends AppField
         field = templates.textField( this )
         input = $(field).find( 'input' )
         mask = @mask
-        self = this
+        id = this.id
         if mask then $(document).on( 'postAppFormAppended', () ->
-            $('#' + self.id).mask(mask)
+            $('#' + id).mask(mask)
         )
         return field
 
@@ -104,7 +104,7 @@ $ () ->
     appForm.addField( new TextField( 'Last Name', 5, 29 ) )
     appForm.startNewLine()
     appForm.addField( new TextField( 'Social Security Number', 5, 20, '999-99-9999' ) )
-    appForm.addField( new TextField( 'Date of Birth', 4, 20 ) )
+    appForm.addField( new TextField( 'Date of Birth (MM/DD/YYYY)', 5, 11, '99/99/9999' ) )
     appForm.render()
 
     $(document).trigger('postAppFormAppended')

@@ -24,13 +24,17 @@ task :compile, :filename do |t,args|
 
   doc = Nokogiri::HTML(html);
   doc.css('script').each do |script|
+    puts "script=" + script.inspect
     src = script['src']
     script.delete 'src'
-    scriptContent = getContents( src, 'public' )
-    script.children = Nokogiri::XML::Text.new(scriptContent,doc)
+    if( src ) # Skip on-page scripts (like templates)
+      scriptContent = getContents( src, 'public' )
+      script.children = Nokogiri::XML::Text.new(scriptContent,doc)
+    end
   end
 
   doc.css('link').each do |link|
+    puts "link=" + link.inspect
     href = link['href']
     link.delete 'href'
     content = getContents( href, 'public' )
@@ -46,6 +50,7 @@ end
 
 # Get the contents of a local file or web url
 def getContents( name, dir )
+  puts "getting contents"
   if( /^https?:\/\// =~ name )
     begin
       response = Excon.get( name, :expects => [200] )
@@ -72,6 +77,7 @@ def getContents( name, dir )
         puts "    But found #{filename}"
       end
     end
+    puts "done getting contents"
     contents
   end
 end
