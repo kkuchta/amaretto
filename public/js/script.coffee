@@ -94,8 +94,12 @@ $ () ->
     )
 
     # Bind buttons
-    $('a#aboutLink').click () ->
-        
+    $('a#printViewLink').click () ->
+        console.log "here"
+        toHide = $('.hideOnPrint')
+        toHide.hide(600)
+        setTimeout ( () -> toHide.show(400) ), 5000
+
     
 
     window.appForm = new AppForm '#application'

@@ -28,9 +28,9 @@
             %li
               %a#aboutLink{'data-toggle'=>"modal", href:'#aboutDialog'} About
             %li
-              %a#reportABugLink{href:'#'} Report a Bug
+              %a#reportABugLink{href:'https://github.com/kkuchta/amaretto/issues', target:'_blank'} Report a Bug
             %li
-              %a#printViewLink{href:'#'} Print View
+              %a#printViewLink{href:'#'} Print Preview
 
       %form#application
       #aboutDialog.modal.hide.fade{ tabindex:-1, role:'dialog' }
@@ -51,11 +51,13 @@
           %h4 Who?
           %a{ href:'http://www.kevinkuchta.com', target:'_blank'} Kevin Kuchta
           \- a software developer in San Francisco.
-          %h4
-          Future features:
+          %h4 Future features:
           %ul
-            %li Saving your progress (only on your local machine- I don't want to be responsiblefor your data)
-            %li Https
+            %li Saving your progress (only on your local machine- I don't want to be responsiblefor your private information and you probably don't trust me with it anyway)
+            %li Perhaps having a form generator that allows realators to create their own, customized version of this form
+            %li Maybe more advanced features like generating the pdf for you to download or emailing it to an address of your choosing
+
+          Of course, all of this would have to be carefully thought out so-as to not interfere with the usability of the primary use-case.
           %h4 Tech
           This is just js- no backend.  It's hosted on github pages right now,
           although I might move it to S3 or some other static content hosting
