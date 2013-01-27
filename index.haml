@@ -2,30 +2,68 @@
 
 %html
   %head
-    %title JS App Template
+    %title SF Rental Application
     %script{ type: 'text/javascript', src: 'https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js' }
     -#%script{ type: 'text/javascript', src: 'js/bootstrap.min.js' }
     %script{ type: 'text/javascript', src: 'js/script.js' }
     %script{ type: 'text/javascript', src: 'js/handlebars-1.0.rc.1.js' }
     %script{ type: 'text/javascript', src: 'js/jquery.maskedinput-1.3.js' }
+    %script{ type: 'text/javascript', src: '//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js' }
     %link{ type: 'text/css', rel: 'stylesheet', href: 'css/bootstrap.min.css' }
+    %link{ type: 'text/css', rel: 'stylesheet', href: '//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap.no-icons.min.css' }
     %link{ type: 'text/css', rel: 'stylesheet', href: 'css/style.css' }
+    %link{ type: 'text/css', rel: 'stylesheet', href: 'css/print.css', media:'print' }
   %body
     .container
       %h1.row
         .span12
           SF Rental Application
+      .row.hideOnPrint
+        %h3.span12{style:'color:red;'}
+          DO NOT USE YET, THIS IS NOT SECURE.
+        .span12
+          Until you see 'https" and the little lock symbol in your url bar, there's no guarantee that someone hasn't added a nasty bit of code to the page to send your private information back to them.  This page is a work in progress, and will not be secure until finished.
+        .span12
+          %ul.inline
+            %li
+              %a#aboutLink{'data-toggle'=>"modal", href:'#aboutDialog'} About
+            %li
+              %a#reportABugLink{href:'#'} Report a Bug
+            %li
+              %a#printViewLink{href:'#'} Print View
+
       %form#application
-        .row
-          .span4
-            %label{ for:'first-name' } First Name
-            %input#first-name{ type:'text' }
-          .span4
-            %label{ for:'middle-intial' } M.I.
-            %input#middle-initial{ type:'text' }
-          .span4
-            %label{ for:'last-name' } Last Name
-            %input#last-name{ type:'text' }
+      #aboutDialog.modal.hide.fade{ tabindex:-1, role:'dialog' }
+        .modal-header
+          %button.close{ 'data-dismiss'=>'modal' } &times;
+          <h3>About</h3>
+        .modal-body
+          %h4 How?
+          %p Just fill out the form and print it.  When you print, only the form will be visible; the nav menu and ads will disappear.  Printing it to a pdf file (if your operating system allows it) and emailing that instead of using real paper is a good way to save a tree.
+          %h4 Is it safe?
+          You should be legitimately concerned about giving all this personal information to a random landlord, much less a random site.  Here are some reasons this is somewhat safe, though:
+          %ul
+            %li Nothing gets sent back to any server- there's no submit button, and all the information you enter is only ever seen by your computer.
+            %li You can inspect the code if you're capable of doing so- this page is [open source](https://github.com/kkuchta/amaretto) to make sure nothing devious is going on
+            %li It's over https, so 
+          %h4 Why?
+          %p I was surprised how hard it was to find a simple common rental application form while looking for an apartment in San Francisco, so I built this.
+          %h4 Who?
+          %a{ href:'http://www.kevinkuchta.com', target:'_blank'} Kevin Kuchta
+          \- a software developer in San Francisco.
+          %h4
+          Future features:
+          %ul
+            %li Saving your progress (only on your local machine- I don't want to be responsiblefor your data)
+            %li Https
+          %h4 Tech
+          This is just js- no backend.  It's hosted on github pages right now,
+          although I might move it to S3 or some other static content hosting
+          if it gets any traffic.  Libraries include the MaskedInput jquery
+          plugin, jquery, bootstrap, and handlebars.  Tools used were
+          coffeescript, Sass, Haml, and a custom framework to run all of those
+          that I'm working on called Canton.
+
 
   %script#textField{ type:"text/x-handlebars-template" }
     %div{ class:'span{{spanWidth}}' }
