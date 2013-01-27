@@ -36,9 +36,11 @@ task :compile, :filename do |t,args|
   doc.css('link').each do |link|
     puts "link=" + link.inspect
     href = link['href']
+    media = link['media']
+    mediaText = media == nil ? '' : 'media="' + media + '"'
     link.delete 'href'
     content = getContents( href, 'public' )
-    link.swap( '<style type="text/css">' + content + '</style>' )
+    link.swap( '<style type="text/css" ' + mediaText + '>' + content + '</style>' )
     link.children = Nokogiri::XML::Text.new(content,doc)
   end
 
