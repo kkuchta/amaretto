@@ -21,10 +21,6 @@ class AppForm
         if @sections.length == 0
             startNewSection()
         return @sections[ @sections.length - 1 ]
-    
-
-
-
 
 class AppSection
     constructor: (@header) ->
@@ -96,6 +92,11 @@ $ () ->
         console.log( "compiled=" + compiled )
         window.templates[id] = compiled
     )
+
+    # Bind buttons
+    $('a#aboutLink').click () ->
+        
+    
 
     window.appForm = new AppForm '#application'
     appForm.startNewSection( 'Basics' )
