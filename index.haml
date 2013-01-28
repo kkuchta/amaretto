@@ -74,3 +74,9 @@
     %div{ class:'span{{spanWidth}}' }
       %label{ for:'{{id}}' } {{name}}
       %input{ id:'{{id}}', type:'text', size:'{{chars}}' }
+
+  %script#dropdown{ type:"text/x-handlebars-template" }
+    %div{ class:'span{{spanWidth}} select-container' }
+      %label{ for:'{{id}}' } {{name}}
+      %select{ id:'{{id}}' }
+        {{#each options}}<option>{{this}}</option>{{/each}}

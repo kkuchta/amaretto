@@ -1,3 +1,5 @@
+window.states = ["AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FM", "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MH", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "MP", "OH", "OK", "OR", "PW", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VI", "VA", "WA", "WV", "WI", "WY"]
+
 class AppForm
     constructor: (@selector) ->
         @sections = []
@@ -77,6 +79,15 @@ class TextField extends AppField
         )
         return field
 
+class DropdownField extends AppField
+    constructor: (@name,@spanWidth,@width,@options) ->
+        super( @name,@spanWidth )
+    render: () ->
+        field = templates.dropdown( this )
+        #input = $(field).find( 'select' )
+        #id = this.id
+        return field
+
 
 $ () ->
     console.log("Coffeescript and jquery loaded")
@@ -104,12 +115,21 @@ $ () ->
 
     window.appForm = new AppForm '#application'
     appForm.startNewSection( 'Basics' )
-    appForm.addField( new TextField( 'First Name', 5, 29 ) )
+    appForm.addField( new TextField( 'First Name', 5, 34 ) )
     appForm.addField( new TextField( 'Middle Initial', 2, 2 ) )
     appForm.addField( new TextField( 'Last Name', 5, 29 ) )
     appForm.startNewLine()
     appForm.addField( new TextField( 'Social Security Number', 5, 20, '999-99-9999' ) )
     appForm.addField( new TextField( 'Date of Birth (MM/DD/YYYY)', 5, 11, '99/99/9999' ) )
+    appForm.startNewLine()
+    appForm.addField( new TextField( "Driver's License Number", 6, 19 ) )
+    appForm.addField( new DropdownField( "State", 6, 19, window.states ) )
+    appForm.startNewSection( 'Contact' )
+    appForm.addField( new TextField( 'Primary Phone', 3, 12, '999-999-9999' ) )
+    appForm.addField( new TextField( 'Alt Phone', 3, 12, '999-999-9999' ) )
+    appForm.addField( new TextField( 'Best time to call', 6, 36 ) )
+    appForm.startNewLine()
+    appForm.addField( new TextField( 'Email Address', 6, 46 ) )
     appForm.render()
 
     $(document).trigger('postAppFormAppended')
