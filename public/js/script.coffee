@@ -8,6 +8,8 @@ class AppForm
         @sections.push new AppSection name
     startNewLine: () ->
         this.getOrCreateLastSection().startNewLine()
+    addHR: (spanWidth = 3) ->
+        this.getOrCreateLastSection().addLine( new HrLine(spanWidth) )
 
     addField: ( field ) ->
         this.getOrCreateLastSection().addField( field )
@@ -29,9 +31,13 @@ class AppSection
         @lines = []
         this.startNewLine()
     startNewLine: () ->
-        @lines.push new AppLine
+        this.addLine( new AppLine )
+    addLine: (line) ->
+        @lines.push line
     addField: (field) ->
-        this.getOrCreateLastLine().addField( field )
+        if( !this.getOrCreateLastLine().addField( field ) )
+            this.startNewLine()
+            this.getOrCreateLastLine().addField( field )
 
     render: () ->
         console.log("rendering app section" );
@@ -48,12 +54,29 @@ class AppSection
 class AppLine
     constructor: () ->
         @fields = []
+
+    # Return false if the field was not added, and should instead be added to
+    # the next line
     addField: (field) ->
         @fields.push field
+        return true
+
     render: () ->
         line = $ '<div class="row">'
         for i, field of @fields
             line.append field.render()
+        return line
+
+class HrLine extends AppLine
+    constructor: (@spanWidth) ->
+        @blankSpan = Math.floor( (12 - @spanWidth) / 2 )
+
+    addField: (field) ->
+        return false
+    render: () ->
+        line = $ '<div class="row">'
+        line.append '<div class="span' + @blankSpan + '"></div>'
+        line.append '<hr class="span' + @spanWidth + '" />'
         return line
 
 class AppField
@@ -79,15 +102,23 @@ class TextField extends AppField
         )
         return field
 
+class PhoneField extends TextField
+    constructor: (@name,@spanWidth = 3) ->
+        super(@name,@spanWidth,20, '999-999-9999 ?x9999')
+
 class DropdownField extends AppField
     constructor: (@name,@spanWidth,@width,@options) ->
         super( @name,@spanWidth )
     render: () ->
         field = templates.dropdown( this )
+        $('body').append(field)
+        container = $(field).find('.select-container')
+        console.log( container )
+        console.log('width=', container.prop('width'));
+        $(field).detach()
         #input = $(field).find( 'select' )
         #id = this.id
         return field
-
 
 $ () ->
     console.log("Coffeescript and jquery loaded")
@@ -115,21 +146,43 @@ $ () ->
 
     window.appForm = new AppForm '#application'
     appForm.startNewSection( 'Basics' )
-    appForm.addField( new TextField( 'First Name', 5, 34 ) )
+    appForm.addField( new TextField( 'First Name', 4, 34 ) )
     appForm.addField( new TextField( 'Middle Initial', 2, 2 ) )
     appForm.addField( new TextField( 'Last Name', 5, 29 ) )
     appForm.startNewLine()
-    appForm.addField( new TextField( 'Social Security Number', 5, 20, '999-99-9999' ) )
-    appForm.addField( new TextField( 'Date of Birth (MM/DD/YYYY)', 5, 11, '99/99/9999' ) )
+    appForm.addField( new TextField( 'Social Security Number', 4, 20, '?999-99-9999' ) )
+    appForm.addField( new TextField( 'Date of Birth (MM/DD/YYYY)', 5, 11, '?99/99/9999' ) )
     appForm.startNewLine()
-    appForm.addField( new TextField( "Driver's License Number", 6, 19 ) )
-    appForm.addField( new DropdownField( "State", 6, 19, window.states ) )
+    appForm.addField( new TextField( "Driver's License Number", 4, 19 ) )
+    appForm.addField( new TextField( "State", 2, 2, '?aa' ) )
+    appForm.addField( new TextField( 'Expiration', 3, 11, '?99/99/9999' ) )
     appForm.startNewSection( 'Contact' )
-    appForm.addField( new TextField( 'Primary Phone', 3, 12, '999-999-9999' ) )
-    appForm.addField( new TextField( 'Alt Phone', 3, 12, '999-999-9999' ) )
+    appForm.addField( new PhoneField( 'Primary Phone' ) )
+    appForm.addField( new PhoneField( 'Alt Phone' ) )
     appForm.addField( new TextField( 'Best time to call', 6, 36 ) )
     appForm.startNewLine()
     appForm.addField( new TextField( 'Email Address', 6, 46 ) )
+    appForm.startNewSection( 'Rental History' )
+    addRentalHistory( appForm, "Current Address" )
+    appForm.addHR(4)
+    #appForm.addField( { render: () ->
+        #"<hr class='span3' />"
+    #})
+    addRentalHistory( appForm, "Previous Address" )
     appForm.render()
 
     $(document).trigger('postAppFormAppended')
+
+addRentalHistory = ( form, addressTitle ) ->
+    form.addField( new TextField(addressTitle, 5, 50 ) )
+    form.addField( new TextField("City", 3, 20 ) )
+    form.addField( new TextField("State", 2, 2 ) )
+    form.addField( new TextField("Zip", 2, 2 ) )
+    appForm.startNewLine()
+    form.addField( new TextField("Time at address", 3, 20 ) )
+    form.addField( new TextField("Manager/owner", 4, 30 ) )
+    form.addField( new PhoneField("Phone number") )
+    appForm.startNewLine()
+
+
+# TODO: Fix span width halving thing for HRs
