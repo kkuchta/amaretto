@@ -19,6 +19,13 @@
         padding:0px;
         width:auto;
     }
+    .radio input[type="radio"]{
+        margin-left:-20px;
+    }
+    label.radio{
+        margin-bottom:5px;
+        font-weight:normal;
+    }
     select{
         background:transparent;
         border:none;
@@ -35,4 +42,5 @@
         top:2px;
         display:inline-block;
     }
+    
 }

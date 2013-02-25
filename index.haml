@@ -19,10 +19,6 @@
         .span12
           SF Rental Application
       .row.hideOnPrint
-        %h3.span12{style:'color:red;'}
-          DO NOT USE YET, THIS IS NOT SECURE.
-        .span12
-          Until you see 'https" and the little lock symbol in your url bar, there's no guarantee that someone hasn't added a nasty bit of code to the page to send your private information back to them.  This page is a work in progress, and will not be secure until finished.
         .span12
           %ul.inline
             %li
@@ -31,6 +27,8 @@
               %a#reportABugLink{href:'https://github.com/kkuchta/amaretto/issues', target:'_blank'} Report a Bug
             %li
               %a#printViewLink{href:'#'} Print Preview
+            %li
+              %a#clearFormLink{href:'#'} Clear form
 
       %form#application
       #aboutDialog.modal.hide.fade{ tabindex:-1, role:'dialog' }
@@ -74,6 +72,23 @@
     %div{ class:'span{{spanWidth}}' }
       %label{ for:'{{id}}' } {{name}}
       %input{ id:'{{id}}', type:'text', size:'{{chars}}' }
+
+  %script#checkboxField{ type:"text/x-handlebars-template" }
+    %div{ class:'span{{spanWidth}}' }
+      %label{ for:'{{id}}' } {{name}}
+      %input{ id:'{{id}}', type:'checkbox' }
+
+  %script#radioButtonField{ type:"text/x-handlebars-template" }
+    %div{ class:"span{{spanWidth}} radioButtonContainer" }
+      %label{ class:"forRadio", id:'{{id}}' }
+        {{name}}
+        %br
+      {{#each options}}
+      %label.inline.radio
+
+        ="<input type='radio' val='{{this.value}}'name='group_{{../id}}' {{#if this.checked}}checked{{/if}}>"
+        {{this.value}}
+      {{/each}}
 
   %script#dropdown{ type:"text/x-handlebars-template" }
     %div{ class:'span{{spanWidth}}' }
